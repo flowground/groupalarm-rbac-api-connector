@@ -1,0 +1,51 @@
+{
+    "type": "object",
+    "properties": {
+        "roleID": {
+            "required": true,
+            "type": "int64"
+        },
+        "requestBody": {
+            "description": "This is used for user to role assignment",
+            "type": "object",
+            "title": "Definition of a user-role payload",
+            "required": [
+                "endpoints",
+                "methods"
+            ],
+            "properties": {
+                "endpoints": {
+                    "description": "Concerning endpoints/services",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "x-go-name": "Endpoints"
+                },
+                "id": {
+                    "description": "ID of this role access",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "ID"
+                },
+                "methods": {
+                    "description": "Allowed HTTP methods",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "x-go-name": "Methods"
+                },
+                "roleID": {
+                    "description": "ID of the role",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "RoleID"
+                }
+            },
+            "x-go-package": "groupalarm.com/go/rbac/api/services"
+        }
+    }
+}

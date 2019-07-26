@@ -1,0 +1,350 @@
+{
+    "title": "groupalarm RBAC API",
+    "description": "The RBAC service implements a role based access control infrastructure to GroupAlarm.com\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+    "docsUrl": "",
+    "url": "https://app.groupalarm.com/api/v1/rbac",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://app.groupalarm.com/api/v1/rbac",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "auth_API_Token": {
+                "label": "API-TOKEN (API_Token)",
+                "viewClass": "TextFieldView",
+                "note": "To use this API, you need an API-Token from the RBAC settings of your GroupAlarm organization. Place the token inside the HTTP-Header `API-Token` for every request, otherwise the API will return an \"401 Unauthorized\" error for your request."
+            },
+            "auth_Personal-Access-Token": {
+                "label": "Personal-Access-Token (Personal-Access-Token)",
+                "viewClass": "TextFieldView",
+                "note": "To use this API, you need a Personal Access Token from your profile settings. Place the token inside the HTTP-Header `Personal-Access-Token` for every request, otherwise the API will return an \"401 Unauthorized\" error for your request."
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "PersonalAccessTokenList": {
+            "main": "./lib/actions/PersonalAccessTokenList.js",
+            "title": "PersonalAccessTokenList",
+            "description": "Lists all personal access tokens created by the current user",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/PersonalAccessTokenList.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "PersonalAccessTokenCreate": {
+            "main": "./lib/actions/PersonalAccessTokenCreate.js",
+            "title": "PersonalAccessTokenCreate",
+            "description": "Creates a new personal access token for the current user",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/PersonalAccessTokenCreate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "PersonalAccessTokenRegenerate": {
+            "main": "./lib/actions/PersonalAccessTokenRegenerate.js",
+            "title": "PersonalAccessTokenRegenerate",
+            "description": "Regenerates an existing personal access token for the current user",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/PersonalAccessTokenRegenerate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "PersonalAccessTokenDelete": {
+            "main": "./lib/actions/PersonalAccessTokenDelete.js",
+            "title": "PersonalAccessTokenDelete",
+            "description": "Deletes the given personal access tokens",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/PersonalAccessTokenDelete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleList": {
+            "main": "./lib/actions/RoleList.js",
+            "title": "RoleList",
+            "description": "Returns all roles with passed organization id",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleList.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleCreate": {
+            "main": "./lib/actions/RoleCreate.js",
+            "title": "RoleCreate",
+            "description": "Creates a new role in passed organization id",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleCreate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleGet": {
+            "main": "./lib/actions/RoleGet.js",
+            "title": "RoleGet",
+            "description": "Get specific role with passed ID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleGet.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleDelete": {
+            "main": "./lib/actions/RoleDelete.js",
+            "title": "RoleDelete",
+            "description": "Delete specific role with passed ID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleDelete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleUpdate": {
+            "main": "./lib/actions/RoleUpdate.js",
+            "title": "RoleUpdate",
+            "description": "Update specific role with passed ID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleAccessList": {
+            "main": "./lib/actions/RoleAccessList.js",
+            "title": "RoleAccessList",
+            "description": "List all assigned accesses for the passed roleID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleAccessList.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleAccessCreate": {
+            "main": "./lib/actions/RoleAccessCreate.js",
+            "title": "RoleAccessCreate",
+            "description": "Creates a role access definition",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleAccessCreate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleAccessDelete": {
+            "main": "./lib/actions/RoleAccessDelete.js",
+            "title": "RoleAccessDelete",
+            "description": "Creates an role access definition",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleAccessDelete.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "RoleAccessUpdate": {
+            "main": "./lib/actions/RoleAccessUpdate.js",
+            "title": "RoleAccessUpdate",
+            "description": "Updates a role access definition",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/RoleAccessUpdate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "UserRoleList": {
+            "main": "./lib/actions/UserRoleList.js",
+            "title": "UserRoleList",
+            "description": "List all assigned user for passed roleID",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/UserRoleList.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "UserRoleCreate": {
+            "main": "./lib/actions/UserRoleCreate.js",
+            "title": "UserRoleCreate",
+            "description": "Create a user to role assignment",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/UserRoleCreate.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "DeleteUserRole": {
+            "main": "./lib/actions/DeleteUserRole.js",
+            "title": "DeleteUserRole",
+            "description": "Deletes an user-role assignment for the passed IDs",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/DeleteUserRole.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "ServicesList": {
+            "main": "./lib/actions/ServicesList.js",
+            "title": "ServicesList",
+            "description": "List all up and running services from GroupAlarm.com",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/ServicesList.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "GetUserRoles": {
+            "main": "./lib/actions/GetUserRoles.js",
+            "title": "GetUserRoles",
+            "description": "Returns all roles for the current logged in user (JWT-TOKEN)",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/GetUserRoles.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

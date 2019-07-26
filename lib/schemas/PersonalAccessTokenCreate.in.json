@@ -1,0 +1,22 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "description": "This is used for creation of personal access tokens",
+            "type": "object",
+            "title": "Definition of a personal access token request payload",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "x-go-name": "Name"
+                },
+                "userID": {
+                    "type": "integer",
+                    "format": "int64",
+                    "x-go-name": "UserID"
+                }
+            },
+            "x-go-package": "groupalarm.com/go/rbac/api/services"
+        }
+    }
+}

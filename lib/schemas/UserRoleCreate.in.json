@@ -1,0 +1,35 @@
+{
+    "type": "object",
+    "properties": {
+        "roleID": {
+            "required": true,
+            "type": "int64"
+        },
+        "requestBody": {
+            "description": "This is used for user to role assignment",
+            "type": "object",
+            "title": "Definition of a user-role payload",
+            "required": [
+                "userID",
+                "roleID"
+            ],
+            "properties": {
+                "roleID": {
+                    "description": "ID of the role",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "RoleID"
+                },
+                "userID": {
+                    "description": "ID of the user",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "UserID"
+                }
+            },
+            "x-go-package": "groupalarm.com/go/rbac/api/services"
+        }
+    }
+}

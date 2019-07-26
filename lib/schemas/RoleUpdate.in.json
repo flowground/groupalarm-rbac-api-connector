@@ -1,0 +1,50 @@
+{
+    "type": "object",
+    "properties": {
+        "roleID": {
+            "required": true,
+            "type": "int64"
+        },
+        "requestBody": {
+            "description": "This is used for role interaction",
+            "type": "object",
+            "title": "Definition of a role payload",
+            "required": [
+                "name",
+                "organizationID"
+            ],
+            "properties": {
+                "description": {
+                    "description": "Optional description for this role",
+                    "type": "string",
+                    "x-go-name": "Description"
+                },
+                "id": {
+                    "description": "ID for this role",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "ID"
+                },
+                "name": {
+                    "description": "Name for this role",
+                    "type": "string",
+                    "x-go-name": "Name"
+                },
+                "organizationID": {
+                    "description": "Connected organization ID",
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "x-go-name": "OrganizationID"
+                },
+                "type": {
+                    "description": "Definition of default organization roles",
+                    "type": "string",
+                    "x-go-name": "Type"
+                }
+            },
+            "x-go-package": "groupalarm.com/go/rbac/api/services"
+        }
+    }
+}

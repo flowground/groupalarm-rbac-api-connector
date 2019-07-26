@@ -1,0 +1,2257 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "The RBAC service implements a role based access control infrastructure to GroupAlarm.com\n\n# Authentication\n\n<!-- ReDoc-Inject: <security-definitions> -->",
+        "title": "groupalarm RBAC API",
+        "version": "1.15.0",
+        "x-logo": {
+            "url": "https://www.groupalarm.com/favicon/logo_512.png"
+        }
+    },
+    "paths": {
+        "/personal-access-token": {
+            "get": {
+                "description": "Lists all personal access tokens created by the current user",
+                "tags": [
+                    "personal-access-token"
+                ],
+                "operationId": "PersonalAccessTokenList",
+                "responses": {
+                    "200": {
+                        "description": "all personal access tokens",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for personal access token interaction",
+                                        "type": "object",
+                                        "title": "Definition of a personal access token payload",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "x-go-name": "ID"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "x-go-name": "Name"
+                                            },
+                                            "token": {
+                                                "type": "string",
+                                                "x-go-name": "Token"
+                                            },
+                                            "userID": {
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "x-go-name": "UserID"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "userID not found in JWT token"
+                    },
+                    "500": {
+                        "description": "unexpected internal error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a new personal access token for the current user",
+                "tags": [
+                    "personal-access-token"
+                ],
+                "operationId": "PersonalAccessTokenCreate",
+                "responses": {
+                    "201": {
+                        "description": "newly created personal access token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for personal access token interaction",
+                                    "type": "object",
+                                    "title": "Definition of a personal access token payload",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "x-go-name": "Token"
+                                        },
+                                        "userID": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "x-go-name": "UserID"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "userID not found in JWT token or request malformed"
+                    },
+                    "500": {
+                        "description": "unexpected internal error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for creation of personal access tokens",
+                                "type": "object",
+                                "title": "Definition of a personal access token request payload",
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "x-go-name": "Name"
+                                    },
+                                    "userID": {
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "x-go-name": "UserID"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/personal-access-token/{id}": {
+            "post": {
+                "description": "Regenerates an existing personal access token for the current user",
+                "tags": [
+                    "personal-access-token"
+                ],
+                "operationId": "PersonalAccessTokenRegenerate",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "regenerated personal access token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for personal access token interaction",
+                                    "type": "object",
+                                    "title": "Definition of a personal access token payload",
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "x-go-name": "Token"
+                                        },
+                                        "userID": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "x-go-name": "UserID"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "userID not found in JWT token or request malformed"
+                    },
+                    "500": {
+                        "description": "unexpected internal error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes the given personal access tokens",
+                "tags": [
+                    "personal-access-token"
+                ],
+                "operationId": "PersonalAccessTokenDelete",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "personal access token successfully deleted"
+                    },
+                    "400": {
+                        "description": "userID not found in JWT token"
+                    },
+                    "404": {
+                        "description": "personal access token not found"
+                    },
+                    "500": {
+                        "description": "unexpected internal error"
+                    }
+                }
+            }
+        },
+        "/roles": {
+            "get": {
+                "description": "Returns all roles with passed organization id",
+                "tags": [
+                    "roles"
+                ],
+                "operationId": "RoleList",
+                "parameters": [
+                    {
+                        "name": "organization_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All roles from organization",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for role interaction",
+                                        "type": "object",
+                                        "title": "Definition of a role payload",
+                                        "required": [
+                                            "name",
+                                            "organizationID"
+                                        ],
+                                        "properties": {
+                                            "description": {
+                                                "description": "Optional description for this role",
+                                                "type": "string",
+                                                "x-go-name": "Description"
+                                            },
+                                            "id": {
+                                                "description": "ID for this role",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "ID"
+                                            },
+                                            "name": {
+                                                "description": "Name for this role",
+                                                "type": "string",
+                                                "x-go-name": "Name"
+                                            },
+                                            "organizationID": {
+                                                "description": "Connected organization ID",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "OrganizationID"
+                                            },
+                                            "type": {
+                                                "description": "Definition of default organization roles",
+                                                "type": "string",
+                                                "x-go-name": "Type"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "query parameter 'organization_id' is missing"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "x-code-samples": [
+                    {
+                        "lang": "JavaScript",
+                        "source": "console.log('Hello World');"
+                    },
+                    {
+                        "label": "curl",
+                        "lang": "Shell",
+                        "source": "curl -XGET -H'Authorization: Bearer TOKEN' 'https://app.groupalarm.com/api/v1/roles'"
+                    }
+                ]
+            },
+            "post": {
+                "description": "Creates a new role in passed organization id",
+                "tags": [
+                    "roles"
+                ],
+                "operationId": "RoleCreate",
+                "responses": {
+                    "201": {
+                        "description": "created role payload",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for role interaction",
+                                    "type": "object",
+                                    "title": "Definition of a role payload",
+                                    "required": [
+                                        "name",
+                                        "organizationID"
+                                    ],
+                                    "properties": {
+                                        "description": {
+                                            "description": "Optional description for this role",
+                                            "type": "string",
+                                            "x-go-name": "Description"
+                                        },
+                                        "id": {
+                                            "description": "ID for this role",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "description": "Name for this role",
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "organizationID": {
+                                            "description": "Connected organization ID",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "OrganizationID"
+                                        },
+                                        "type": {
+                                            "description": "Definition of default organization roles",
+                                            "type": "string",
+                                            "x-go-name": "Type"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "passed role is in the wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for role interaction",
+                                "type": "object",
+                                "title": "Definition of a role payload",
+                                "required": [
+                                    "name",
+                                    "organizationID"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "description": "Optional description for this role",
+                                        "type": "string",
+                                        "x-go-name": "Description"
+                                    },
+                                    "id": {
+                                        "description": "ID for this role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "ID"
+                                    },
+                                    "name": {
+                                        "description": "Name for this role",
+                                        "type": "string",
+                                        "x-go-name": "Name"
+                                    },
+                                    "organizationID": {
+                                        "description": "Connected organization ID",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "OrganizationID"
+                                    },
+                                    "type": {
+                                        "description": "Definition of default organization roles",
+                                        "type": "string",
+                                        "x-go-name": "Type"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/{roleID}": {
+            "get": {
+                "description": "Get specific role with passed ID",
+                "tags": [
+                    "roles"
+                ],
+                "operationId": "RoleGet",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "requested role object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for role interaction",
+                                    "type": "object",
+                                    "title": "Definition of a role payload",
+                                    "required": [
+                                        "name",
+                                        "organizationID"
+                                    ],
+                                    "properties": {
+                                        "description": {
+                                            "description": "Optional description for this role",
+                                            "type": "string",
+                                            "x-go-name": "Description"
+                                        },
+                                        "id": {
+                                            "description": "ID for this role",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "description": "Name for this role",
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "organizationID": {
+                                            "description": "Connected organization ID",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "OrganizationID"
+                                        },
+                                        "type": {
+                                            "description": "Definition of default organization roles",
+                                            "type": "string",
+                                            "x-go-name": "Type"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "role ID is not passed in path"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete specific role with passed ID",
+                "tags": [
+                    "roles"
+                ],
+                "operationId": "RoleDelete",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role was deleted"
+                    },
+                    "400": {
+                        "description": "roleID is not passed in path"
+                    },
+                    "401": {
+                        "description": "deleted role is a default role"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update specific role with passed ID",
+                "tags": [
+                    "roles"
+                ],
+                "operationId": "RoleUpdate",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "updated role object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for role interaction",
+                                    "type": "object",
+                                    "title": "Definition of a role payload",
+                                    "required": [
+                                        "name",
+                                        "organizationID"
+                                    ],
+                                    "properties": {
+                                        "description": {
+                                            "description": "Optional description for this role",
+                                            "type": "string",
+                                            "x-go-name": "Description"
+                                        },
+                                        "id": {
+                                            "description": "ID for this role",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "description": "Name for this role",
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "organizationID": {
+                                            "description": "Connected organization ID",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "OrganizationID"
+                                        },
+                                        "type": {
+                                            "description": "Definition of default organization roles",
+                                            "type": "string",
+                                            "x-go-name": "Type"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "roleID is not passed in path or passed role object has the wrong format"
+                    },
+                    "401": {
+                        "description": "edited role is a default role"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for role interaction",
+                                "type": "object",
+                                "title": "Definition of a role payload",
+                                "required": [
+                                    "name",
+                                    "organizationID"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "description": "Optional description for this role",
+                                        "type": "string",
+                                        "x-go-name": "Description"
+                                    },
+                                    "id": {
+                                        "description": "ID for this role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "ID"
+                                    },
+                                    "name": {
+                                        "description": "Name for this role",
+                                        "type": "string",
+                                        "x-go-name": "Name"
+                                    },
+                                    "organizationID": {
+                                        "description": "Connected organization ID",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "OrganizationID"
+                                    },
+                                    "type": {
+                                        "description": "Definition of default organization roles",
+                                        "type": "string",
+                                        "x-go-name": "Type"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/roles/{roleID}/access": {
+            "get": {
+                "description": "List all assigned accesses for the passed roleID",
+                "tags": [
+                    "roleaccess"
+                ],
+                "operationId": "RoleAccessList",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns an array of assigned accesses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for user to role assignment",
+                                        "type": "object",
+                                        "title": "Definition of a user-role payload",
+                                        "required": [
+                                            "endpoints",
+                                            "methods"
+                                        ],
+                                        "properties": {
+                                            "endpoints": {
+                                                "description": "Concerning endpoints/services",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "x-go-name": "Endpoints"
+                                            },
+                                            "id": {
+                                                "description": "ID of this role access",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "ID"
+                                            },
+                                            "methods": {
+                                                "description": "Allowed HTTP methods",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "x-go-name": "Methods"
+                                            },
+                                            "roleID": {
+                                                "description": "ID of the role",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "RoleID"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "roleID or userID in the wrong format"
+                    },
+                    "403": {
+                        "description": "user is the last admin member"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Creates a role access definition",
+                "tags": [
+                    "roleaccess"
+                ],
+                "operationId": "RoleAccessCreate",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "returns the created role access object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for user to role assignment",
+                                    "type": "object",
+                                    "title": "Definition of a user-role payload",
+                                    "required": [
+                                        "endpoints",
+                                        "methods"
+                                    ],
+                                    "properties": {
+                                        "endpoints": {
+                                            "description": "Concerning endpoints/services",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "x-go-name": "Endpoints"
+                                        },
+                                        "id": {
+                                            "description": "ID of this role access",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "ID"
+                                        },
+                                        "methods": {
+                                            "description": "Allowed HTTP methods",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "x-go-name": "Methods"
+                                        },
+                                        "roleID": {
+                                            "description": "ID of the role",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "RoleID"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "role access payload is in a wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for user to role assignment",
+                                "type": "object",
+                                "title": "Definition of a user-role payload",
+                                "required": [
+                                    "endpoints",
+                                    "methods"
+                                ],
+                                "properties": {
+                                    "endpoints": {
+                                        "description": "Concerning endpoints/services",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "x-go-name": "Endpoints"
+                                    },
+                                    "id": {
+                                        "description": "ID of this role access",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "ID"
+                                    },
+                                    "methods": {
+                                        "description": "Allowed HTTP methods",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "x-go-name": "Methods"
+                                    },
+                                    "roleID": {
+                                        "description": "ID of the role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "RoleID"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/roles/{roleID}/access/{roleAccessID}": {
+            "delete": {
+                "description": "Creates an role access definition",
+                "tags": [
+                    "roleaccess"
+                ],
+                "operationId": "RoleAccessDelete",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    },
+                    {
+                        "name": "roleAccessID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "role access assignment deleted"
+                    },
+                    "400": {
+                        "description": "roleID and/or roleAccessID in a wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            },
+            "patch": {
+                "description": "Updates a role access definition",
+                "tags": [
+                    "roleaccess"
+                ],
+                "operationId": "RoleAccessUpdate",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    },
+                    {
+                        "name": "roleAccessID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "returns the the updated role access object",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "description": "This is used for user to role assignment",
+                                    "type": "object",
+                                    "title": "Definition of a user-role payload",
+                                    "required": [
+                                        "endpoints",
+                                        "methods"
+                                    ],
+                                    "properties": {
+                                        "endpoints": {
+                                            "description": "Concerning endpoints/services",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "x-go-name": "Endpoints"
+                                        },
+                                        "id": {
+                                            "description": "ID of this role access",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "ID"
+                                        },
+                                        "methods": {
+                                            "description": "Allowed HTTP methods",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "x-go-name": "Methods"
+                                        },
+                                        "roleID": {
+                                            "description": "ID of the role",
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "minimum": 1,
+                                            "x-go-name": "RoleID"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "role access payload is in a wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for user to role assignment",
+                                "type": "object",
+                                "title": "Definition of a user-role payload",
+                                "required": [
+                                    "endpoints",
+                                    "methods"
+                                ],
+                                "properties": {
+                                    "endpoints": {
+                                        "description": "Concerning endpoints/services",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "x-go-name": "Endpoints"
+                                    },
+                                    "id": {
+                                        "description": "ID of this role access",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "ID"
+                                    },
+                                    "methods": {
+                                        "description": "Allowed HTTP methods",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "x-go-name": "Methods"
+                                    },
+                                    "roleID": {
+                                        "description": "ID of the role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "RoleID"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/roles/{roleID}/user": {
+            "get": {
+                "description": "List all assigned user for passed roleID",
+                "tags": [
+                    "userroles"
+                ],
+                "operationId": "UserRoleList",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "all connected users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for user to role assignment",
+                                        "type": "object",
+                                        "title": "Definition of a user-role payload",
+                                        "required": [
+                                            "userID",
+                                            "roleID"
+                                        ],
+                                        "properties": {
+                                            "roleID": {
+                                                "description": "ID of the role",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "RoleID"
+                                            },
+                                            "userID": {
+                                                "description": "ID of the user",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "UserID"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "roleID is not passed in path"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a user to role assignment",
+                "tags": [
+                    "userroles"
+                ],
+                "operationId": "UserRoleCreate",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "user was assigned to role"
+                    },
+                    "400": {
+                        "description": "user-role payload is in the wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for user to role assignment",
+                                "type": "object",
+                                "title": "Definition of a user-role payload",
+                                "required": [
+                                    "userID",
+                                    "roleID"
+                                ],
+                                "properties": {
+                                    "roleID": {
+                                        "description": "ID of the role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "RoleID"
+                                    },
+                                    "userID": {
+                                        "description": "ID of the user",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "UserID"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        },
+        "/roles/{roleID}/user/{userID}": {
+            "delete": {
+                "description": "Deletes an user-role assignment for the passed IDs",
+                "tags": [
+                    "userroles"
+                ],
+                "operationId": "DeleteUserRole",
+                "parameters": [
+                    {
+                        "name": "roleID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    },
+                    {
+                        "name": "userID",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "user-role assignment deleted"
+                    },
+                    "400": {
+                        "description": "roleID or userID in the wrong format"
+                    },
+                    "403": {
+                        "description": "user is the last admin member"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                }
+            }
+        },
+        "/services": {
+            "get": {
+                "description": "List all up and running services from GroupAlarm.com",
+                "tags": [
+                    "services"
+                ],
+                "operationId": "ServicesList",
+                "responses": {
+                    "200": {
+                        "description": "All up and running services from GroupAlarm.com",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for service interaction",
+                                        "type": "object",
+                                        "title": "Definition of a service payload",
+                                        "required": [
+                                            "name",
+                                            "description",
+                                            "methods"
+                                        ],
+                                        "properties": {
+                                            "description": {
+                                                "description": "Description of this service/endpoint",
+                                                "type": "string",
+                                                "x-go-name": "Description"
+                                            },
+                                            "methods": {
+                                                "description": "Allowed methods for this service",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "x-go-name": "Methods"
+                                            },
+                                            "name": {
+                                                "description": "Name of this service/endpoint",
+                                                "type": "string",
+                                                "x-go-name": "Name"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "unexpected internal error"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "description": "Returns all roles for the current logged in user (JWT-TOKEN)",
+                "tags": [
+                    "userroles"
+                ],
+                "operationId": "GetUserRoles",
+                "responses": {
+                    "201": {
+                        "description": "user was assigned to role"
+                    },
+                    "400": {
+                        "description": "user-role payload is in the wrong format"
+                    },
+                    "500": {
+                        "description": "database error"
+                    }
+                },
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "description": "This is used for user to role assignment",
+                                "type": "object",
+                                "title": "Definition of a user-role payload",
+                                "required": [
+                                    "userID",
+                                    "roleID"
+                                ],
+                                "properties": {
+                                    "roleID": {
+                                        "description": "ID of the role",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "RoleID"
+                                    },
+                                    "userID": {
+                                        "description": "ID of the user",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "minimum": 1,
+                                        "x-go-name": "UserID"
+                                    }
+                                },
+                                "x-go-package": "groupalarm.com/go/rbac/api/services"
+                            }
+                        }
+                    },
+                    "required": true
+                }
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "https://app.groupalarm.com/api/v1/rbac"
+        }
+    ],
+    "components": {
+        "requestBodies": {
+            "UserRole": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "description": "This is used for user to role assignment",
+                            "type": "object",
+                            "title": "Definition of a user-role payload",
+                            "required": [
+                                "userID",
+                                "roleID"
+                            ],
+                            "properties": {
+                                "roleID": {
+                                    "description": "ID of the role",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "RoleID"
+                                },
+                                "userID": {
+                                    "description": "ID of the user",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "UserID"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/rbac/api/services"
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Role": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "description": "This is used for role interaction",
+                            "type": "object",
+                            "title": "Definition of a role payload",
+                            "required": [
+                                "name",
+                                "organizationID"
+                            ],
+                            "properties": {
+                                "description": {
+                                    "description": "Optional description for this role",
+                                    "type": "string",
+                                    "x-go-name": "Description"
+                                },
+                                "id": {
+                                    "description": "ID for this role",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "ID"
+                                },
+                                "name": {
+                                    "description": "Name for this role",
+                                    "type": "string",
+                                    "x-go-name": "Name"
+                                },
+                                "organizationID": {
+                                    "description": "Connected organization ID",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "OrganizationID"
+                                },
+                                "type": {
+                                    "description": "Definition of default organization roles",
+                                    "type": "string",
+                                    "x-go-name": "Type"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/rbac/api/services"
+                        }
+                    }
+                }
+            },
+            "RoleAccess": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "description": "This is used for user to role assignment",
+                            "type": "object",
+                            "title": "Definition of a user-role payload",
+                            "required": [
+                                "endpoints",
+                                "methods"
+                            ],
+                            "properties": {
+                                "endpoints": {
+                                    "description": "Concerning endpoints/services",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "x-go-name": "Endpoints"
+                                },
+                                "id": {
+                                    "description": "ID of this role access",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "ID"
+                                },
+                                "methods": {
+                                    "description": "Allowed HTTP methods",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "x-go-name": "Methods"
+                                },
+                                "roleID": {
+                                    "description": "ID of the role",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "RoleID"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/rbac/api/services"
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "securitySchemes": {
+            "API_Token": {
+                "description": "To use this API, you need an API-Token from the RBAC settings of your GroupAlarm organization. Place the token inside the HTTP-Header `API-Token` for every request, otherwise the API will return an \"401 Unauthorized\" error for your request.",
+                "type": "apiKey",
+                "name": "API-TOKEN",
+                "in": "header"
+            },
+            "Personal-Access-Token": {
+                "description": "To use this API, you need a Personal Access Token from your profile settings. Place the token inside the HTTP-Header `Personal-Access-Token` for every request, otherwise the API will return an \"401 Unauthorized\" error for your request.",
+                "type": "apiKey",
+                "name": "Personal-Access-Token",
+                "in": "header"
+            }
+        },
+        "schemas": {
+            "AccessAllowedResponse": {
+                "description": "AccessAllowedResponse contains whether the organization allows access or not",
+                "type": "object",
+                "properties": {
+                    "accessAllowed": {
+                        "type": "boolean",
+                        "x-go-name": "AccessAllowed"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "EventCreationItem": {
+                "description": "EventCreationItem is used by the different services to create a new audit-log item",
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "string",
+                        "x-go-name": "Data"
+                    },
+                    "organizationID": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "OrganizationID"
+                    },
+                    "service": {
+                        "type": "string",
+                        "x-go-name": "Service"
+                    },
+                    "type": {
+                        "type": "string",
+                        "x-go-name": "Type"
+                    },
+                    "userID": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "UserID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "EventList": {
+                "description": "An EventList contains multiple EventListItems and a TotalEvents count used for pagination",
+                "type": "object",
+                "properties": {
+                    "events": {
+                        "description": "event array with events",
+                        "type": "array",
+                        "items": {
+                            "description": "An EventListItem is used as a single audit-log entry in an EventList",
+                            "type": "object",
+                            "properties": {
+                                "data": {
+                                    "description": "data for view",
+                                    "type": "string",
+                                    "x-go-name": "Data"
+                                },
+                                "id": {
+                                    "description": "id of this item",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "x-go-name": "ID"
+                                },
+                                "organizationID": {
+                                    "description": "connected organization as ID",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "x-go-name": "OrganizationID"
+                                },
+                                "service": {
+                                    "description": "affected service / entity-type",
+                                    "type": "string",
+                                    "x-go-name": "Service"
+                                },
+                                "timestamp": {
+                                    "description": "timestamp, when action was logged",
+                                    "type": "string",
+                                    "x-go-name": "Timestamp"
+                                },
+                                "type": {
+                                    "description": "action type [create, edit, delete]",
+                                    "type": "string",
+                                    "x-go-name": "Type"
+                                },
+                                "user": {
+                                    "description": "User is a basic copy of user-service's PublicUser",
+                                    "type": "object",
+                                    "properties": {
+                                        "email": {
+                                            "type": "string",
+                                            "x-go-name": "EMail"
+                                        },
+                                        "id": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "x-go-name": "ID"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "x-go-name": "Name"
+                                        },
+                                        "surname": {
+                                            "type": "string",
+                                            "x-go-name": "Surname"
+                                        }
+                                    },
+                                    "x-go-package": "groupalarm.com/go/audit/api/services"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/audit/api/services"
+                        },
+                        "x-go-name": "Events"
+                    },
+                    "totalEvents": {
+                        "description": "total amount of events inside the events array",
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "TotalEvents"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "EventListItem": {
+                "description": "An EventListItem is used as a single audit-log entry in an EventList",
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "description": "data for view",
+                        "type": "string",
+                        "x-go-name": "Data"
+                    },
+                    "id": {
+                        "description": "id of this item",
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "ID"
+                    },
+                    "organizationID": {
+                        "description": "connected organization as ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "OrganizationID"
+                    },
+                    "service": {
+                        "description": "affected service / entity-type",
+                        "type": "string",
+                        "x-go-name": "Service"
+                    },
+                    "timestamp": {
+                        "description": "timestamp, when action was logged",
+                        "type": "string",
+                        "x-go-name": "Timestamp"
+                    },
+                    "type": {
+                        "description": "action type [create, edit, delete]",
+                        "type": "string",
+                        "x-go-name": "Type"
+                    },
+                    "user": {
+                        "description": "User is a basic copy of user-service's PublicUser",
+                        "type": "object",
+                        "properties": {
+                            "email": {
+                                "type": "string",
+                                "x-go-name": "EMail"
+                            },
+                            "id": {
+                                "type": "integer",
+                                "format": "int64",
+                                "x-go-name": "ID"
+                            },
+                            "name": {
+                                "type": "string",
+                                "x-go-name": "Name"
+                            },
+                            "surname": {
+                                "type": "string",
+                                "x-go-name": "Surname"
+                            }
+                        },
+                        "x-go-package": "groupalarm.com/go/audit/api/services"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "EventService": {
+                "description": "EventService provides all methods needed to list and create audit-log entries",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "MergedUserRole": {
+                "type": "object",
+                "properties": {
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "organizationID"
+                            ],
+                            "properties": {
+                                "description": {
+                                    "description": "Optional description for this role",
+                                    "type": "string",
+                                    "x-go-name": "Description"
+                                },
+                                "id": {
+                                    "description": "ID for this role",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "ID"
+                                },
+                                "name": {
+                                    "description": "Name for this role",
+                                    "type": "string",
+                                    "x-go-name": "Name"
+                                },
+                                "organizationID": {
+                                    "description": "Connected organization ID",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "OrganizationID"
+                                },
+                                "role_access": {
+                                    "type": "array",
+                                    "items": {
+                                        "description": "This is used for user to role assignment",
+                                        "type": "object",
+                                        "title": "Definition of a user-role payload",
+                                        "required": [
+                                            "endpoints",
+                                            "methods"
+                                        ],
+                                        "properties": {
+                                            "endpoints": {
+                                                "description": "Concerning endpoints/services",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "x-go-name": "Endpoints"
+                                            },
+                                            "id": {
+                                                "description": "ID of this role access",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "ID"
+                                            },
+                                            "methods": {
+                                                "description": "Allowed HTTP methods",
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                },
+                                                "x-go-name": "Methods"
+                                            },
+                                            "roleID": {
+                                                "description": "ID of the role",
+                                                "type": "integer",
+                                                "format": "int64",
+                                                "minimum": 1,
+                                                "x-go-name": "RoleID"
+                                            }
+                                        },
+                                        "x-go-package": "groupalarm.com/go/rbac/api/services"
+                                    },
+                                    "x-go-name": "RoleAccess"
+                                },
+                                "type": {
+                                    "description": "Definition of default organization roles",
+                                    "type": "string",
+                                    "x-go-name": "Type"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/rbac/api/services"
+                        },
+                        "x-go-name": "Roles"
+                    },
+                    "userID": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "UserID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "OrganizationService": {
+                "description": "OrganizationService provides all functions needed to check for expired accesses to organizations",
+                "type": "object",
+                "properties": {
+                    "CheckForExpiredAccesses": {
+                        "type": "string"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "PersonalAccessToken": {
+                "description": "This is used for personal access token interaction",
+                "type": "object",
+                "title": "Definition of a personal access token payload",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "ID"
+                    },
+                    "name": {
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "token": {
+                        "type": "string",
+                        "x-go-name": "Token"
+                    },
+                    "userID": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "UserID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PersonalAccessTokenRequest": {
+                "description": "This is used for creation of personal access tokens",
+                "type": "object",
+                "title": "Definition of a personal access token request payload",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "userID": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "UserID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PersonalAccessTokenService": {
+                "description": "PersonalAccessTokenService contains all methods needed to implement our service",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresEventService": {
+                "description": "PostgresEventService is our implementation of EventService using a Postgres database",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "PostgresOrganizationService": {
+                "description": "PostgresOrganizationService is our implementation of OrganizationService using a Postgres database",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "PostgresPersonalAccessTokenService": {
+                "description": "PostgresPersonalAccessTokenService is our PersonalAccessTokenService implementation using a database",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresRoleAccessService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresRoleService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresServiceService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresSupportAgentService": {
+                "description": "PostgresSupportAgentService is our implementation of SupportAgentService using a Postgres database",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "PostgresTokenService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "PostgresUserRolesService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "Role": {
+                "description": "This is used for role interaction",
+                "type": "object",
+                "title": "Definition of a role payload",
+                "required": [
+                    "name",
+                    "organizationID"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Optional description for this role",
+                        "type": "string",
+                        "x-go-name": "Description"
+                    },
+                    "id": {
+                        "description": "ID for this role",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "ID"
+                    },
+                    "name": {
+                        "description": "Name for this role",
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "organizationID": {
+                        "description": "Connected organization ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "OrganizationID"
+                    },
+                    "type": {
+                        "description": "Definition of default organization roles",
+                        "type": "string",
+                        "x-go-name": "Type"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "RoleAccess": {
+                "description": "This is used for user to role assignment",
+                "type": "object",
+                "title": "Definition of a user-role payload",
+                "required": [
+                    "endpoints",
+                    "methods"
+                ],
+                "properties": {
+                    "endpoints": {
+                        "description": "Concerning endpoints/services",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "x-go-name": "Endpoints"
+                    },
+                    "id": {
+                        "description": "ID of this role access",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "ID"
+                    },
+                    "methods": {
+                        "description": "Allowed HTTP methods",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "x-go-name": "Methods"
+                    },
+                    "roleID": {
+                        "description": "ID of the role",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "RoleID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "RoleAccessService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "RoleService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "RoleWithAccess": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "organizationID"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Optional description for this role",
+                        "type": "string",
+                        "x-go-name": "Description"
+                    },
+                    "id": {
+                        "description": "ID for this role",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "ID"
+                    },
+                    "name": {
+                        "description": "Name for this role",
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "organizationID": {
+                        "description": "Connected organization ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "OrganizationID"
+                    },
+                    "role_access": {
+                        "type": "array",
+                        "items": {
+                            "description": "This is used for user to role assignment",
+                            "type": "object",
+                            "title": "Definition of a user-role payload",
+                            "required": [
+                                "endpoints",
+                                "methods"
+                            ],
+                            "properties": {
+                                "endpoints": {
+                                    "description": "Concerning endpoints/services",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "x-go-name": "Endpoints"
+                                },
+                                "id": {
+                                    "description": "ID of this role access",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "ID"
+                                },
+                                "methods": {
+                                    "description": "Allowed HTTP methods",
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "x-go-name": "Methods"
+                                },
+                                "roleID": {
+                                    "description": "ID of the role",
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "minimum": 1,
+                                    "x-go-name": "RoleID"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/rbac/api/services"
+                        },
+                        "x-go-name": "RoleAccess"
+                    },
+                    "type": {
+                        "description": "Definition of default organization roles",
+                        "type": "string",
+                        "x-go-name": "Type"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "Service": {
+                "description": "This is used for service interaction",
+                "type": "object",
+                "title": "Definition of a service payload",
+                "required": [
+                    "name",
+                    "description",
+                    "methods"
+                ],
+                "properties": {
+                    "description": {
+                        "description": "Description of this service/endpoint",
+                        "type": "string",
+                        "x-go-name": "Description"
+                    },
+                    "methods": {
+                        "description": "Allowed methods for this service",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "x-go-name": "Methods"
+                    },
+                    "name": {
+                        "description": "Name of this service/endpoint",
+                        "type": "string",
+                        "x-go-name": "Name"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "ServiceService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "SupportAgentResponse": {
+                "description": "SupportAgentResponse contains whether the user is a support agent or not",
+                "type": "object",
+                "properties": {
+                    "isSupportAgent": {
+                        "type": "boolean",
+                        "x-go-name": "IsSupportAgent"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "SupportAgentService": {
+                "description": "SupportAgentService provides all functions needed to manage support agents",
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "SupportOrganization": {
+                "description": "SupportOrganization represents a single organization and the timestamp when it allowed support agents to access it",
+                "type": "object",
+                "properties": {
+                    "allowedTimestamp": {
+                        "type": "string",
+                        "format": "date-time",
+                        "x-go-name": "AllowedTimestamp"
+                    },
+                    "organizationId": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "OrganizationID"
+                    },
+                    "organizationName": {
+                        "type": "string",
+                        "x-go-name": "OrganizationName"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "SupportOrganizationList": {
+                "description": "A SupportOrganizationList contains multiple SupportOrganizations and a TotalSupportOrganization count used for pagination",
+                "type": "object",
+                "properties": {
+                    "supportOrganizations": {
+                        "type": "array",
+                        "items": {
+                            "description": "SupportOrganization represents a single organization and the timestamp when it allowed support agents to access it",
+                            "type": "object",
+                            "properties": {
+                                "allowedTimestamp": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "x-go-name": "AllowedTimestamp"
+                                },
+                                "organizationId": {
+                                    "type": "integer",
+                                    "format": "int64",
+                                    "x-go-name": "OrganizationID"
+                                },
+                                "organizationName": {
+                                    "type": "string",
+                                    "x-go-name": "OrganizationName"
+                                }
+                            },
+                            "x-go-package": "groupalarm.com/go/support/api/services"
+                        },
+                        "x-go-name": "SupportOrganizations"
+                    },
+                    "totalSupportOrganizations": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "TotalSupportOrganizations"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/support/api/services"
+            },
+            "Token": {
+                "description": "This is used for token interaction",
+                "type": "object",
+                "title": "Definition of a token payload",
+                "required": [
+                    "organizationID",
+                    "name",
+                    "token"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID for this token",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "ID"
+                    },
+                    "name": {
+                        "description": "Name for this token",
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "organizationID": {
+                        "description": "Connected organization ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "OrganizationID"
+                    },
+                    "token": {
+                        "description": "Actual token",
+                        "type": "string",
+                        "x-go-name": "Token"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "TokenRequest": {
+                "description": "This is used for creation of tokens",
+                "type": "object",
+                "title": "Definition of a token request payload",
+                "required": [
+                    "organizationID",
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "Name for this token",
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "organizationID": {
+                        "description": "Connected organization ID",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "OrganizationID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "TokenService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "User": {
+                "description": "User is a basic copy of user-service's PublicUser",
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "x-go-name": "EMail"
+                    },
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "x-go-name": "ID"
+                    },
+                    "name": {
+                        "type": "string",
+                        "x-go-name": "Name"
+                    },
+                    "surname": {
+                        "type": "string",
+                        "x-go-name": "Surname"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/audit/api/services"
+            },
+            "UserRole": {
+                "description": "This is used for user to role assignment",
+                "type": "object",
+                "title": "Definition of a user-role payload",
+                "required": [
+                    "userID",
+                    "roleID"
+                ],
+                "properties": {
+                    "roleID": {
+                        "description": "ID of the role",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "RoleID"
+                    },
+                    "userID": {
+                        "description": "ID of the user",
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "x-go-name": "UserID"
+                    }
+                },
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            },
+            "UserRolesService": {
+                "type": "object",
+                "x-go-package": "groupalarm.com/go/rbac/api/services"
+            }
+        }
+    },
+    "security": [
+        {
+            "API_Token": []
+        },
+        {
+            "Personal-Access-Token": []
+        }
+    ]
+}
